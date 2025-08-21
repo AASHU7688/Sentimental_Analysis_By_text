@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Page{% endblock title %}
+
+{% block body %}
+<style>
+    body {
+        height: 100vh;
+        background-image: url("static/senti.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body-content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .content-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 255, 0.5);
+        color: white;
+        text-align: left;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .content-container h2 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: #00ffff;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    }
+
+    .question p {
+        margin: 0;
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border: 2px solid #00ffff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    textarea {
+        height: 150px;
+        resize: vertical;
+    }
+
+    button {
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        padding: 10px 30px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: color 0.4s, background-color 0.4s, box-shadow 0.4s, transform 0.3s;
+    }
+
+    button:hover {
+        color: black;
+        background-color: #00ffff;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        border: 2px solid #00ffff;
+        transform: scale(1.05);
+    }
+
+    .button-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+
+<main class="body-content">
+    <div class="content-container">
+        <h2>Contact Us</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="question">
+                <p>1) Your Name:</p>
+                <input type="text" name="name" required placeholder="Enter your name" />
+            </div>
+
+            <div class="question">
+                <p>2) Your Email:</p>
+                <input type="email" name="email" required placeholder="Enter your email" />
+            </div>
+
+            <div class="question">
+                <p>3) Subject:</p>
+                <input type="text" name="subject" required placeholder="Enter the subject" />
+            </div>
+
+            <div class="question">
+                <p>4) Message:</p>
+                <textarea name="message" required placeholder="Enter your message"></textarea>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">Send Message</button>
+            </div>
+
+        </form>
+    </div>
+</main>
+{% endblock body %}

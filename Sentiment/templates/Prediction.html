@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block title %}Sentiment Analysis{% endblock title %}
+
+{% block body %}
+<style>
+    .body-content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .prediction-container {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        text-align: center;
+        color: var(--text-color);
+        border: 2px solid transparent;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        position: relative;
+        z-index: 1;
+    }
+
+    .prediction-container:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(0, 255, 255, 0.4);
+        border-color: var(--primary-color);
+        transform: scale(1.02);
+    }
+
+    .prediction-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 16px;
+        color: var(--text-color);
+    }
+
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+        font-size: 16px;
+        transition: all var(--transition-speed);
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .form-group textarea::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .button-container {
+        margin-top: 30px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+        border: 2px solid var(--primary-color);
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--hover-color), transparent);
+        transition: left 0.5s;
+    }
+
+    button:hover::before {
+        left: 100%;
+    }
+
+    button:hover {
+        background-color: var(--primary-color);
+        color: #000;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .output-container {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--text-color);
+        text-align: left;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .prediction-result {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .prediction-label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .prediction-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .prediction-meter {
+        height: 10px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .prediction-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ff4d4d, #ffff4d, #4dff4d);
+        border-radius: 5px;
+        transition: width 0.5s ease-in-out;
+    }
+
+    .emotions-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .emotion-tag {
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 500;
+        background-color: rgba(0, 255, 255, 0.2);
+        border: 1px solid var(--primary-color);
+    }
+
+    .key-phrases {
+        margin-top: 20px;
+    }
+
+    .key-phrases h4 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .phrase-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .phrase-list li {
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .prediction-container {
+            padding: 20px;
+            margin: 10px;
+        }
+    }
+</style>
+
+<main class="body-content">
+    <div class="prediction-container">
+        <h2 class="prediction-title">Sentiment Analysis</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="text">Enter text for sentiment analysis:</label>
+                <textarea id="text" name="text" placeholder="Enter text to analyze its sentiment (reviews, social media posts, comments, etc.)" required></textarea>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Analyze Sentiment</button>
+            </div>
+        </form>
+
+        {% if output %}
+        <div class="output-container">
+            <div class="prediction-result">
+                <span class="prediction-label">Overall Sentiment:</span>
+                <span class="prediction-value">{{ output.sentiment }}</span>
+            </div>
+            
+            <div class="prediction-meter">
+                <div class="prediction-fill" style="width: {{ output.score }}%;"></div>
+            </div>
+            
+            <div class="emotions-container">
+                {% for emotion in output.emotions %}
+                <span class="emotion-tag">{{ emotion }}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="key-phrases">
+                <h4>Key Indicators Detected:</h4>
+                <ul class="phrase-list">
+                    {% for phrase in output.phrases %}
+                    <li>{{ phrase }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock body %}

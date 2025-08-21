@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Sentiment Analysis{% endblock title %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-image: url("/static/senti.jpg");
+        background-size: cover;
+        background-position: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+    }
+
+    .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.1; transform: translateY(0); }
+        50% { opacity: 1; transform: translateY(-5px); }
+    }
+
+    .content-container {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+    }
+
+    .quote {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 40px 60px;
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+    }
+
+    .p1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #00ffff;
+        text-shadow: 0 0 12px #00ffff;
+        margin-bottom: 20px;
+    }
+
+    .p2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .p3 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #00ffcc;
+        margin-bottom: 25px;
+    }
+
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .button-container a {
+        text-decoration: none;
+    }
+
+    button {
+        padding: 10px 30px;
+        font-size: 16px;
+        color: white;
+        background: transparent;
+        border: 2px solid #00ffff;
+        border-radius: 25px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #00ffff;
+        color: black;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+        transform: scale(1.05);
+    }
+</style>
+
+<!-- Star background layer -->
+<div class="stars" id="stars"></div>
+
+<!-- Content section -->
+<div class="content-container">
+    <div class="quote">
+        <p class="p1">Sentiment AI Analysis</p>
+        <p class="p2">Advanced AI-powered sentiment analysis to understand emotions in text, social media, and reviews.</p>
+        <p class="p3">Decode the emotions behind the words—gain deeper insights.</p>
+        <div class="button-container">
+            <a href="{% url 'signup' %}">
+                <button>Get Started</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- JS to generate stars -->
+<script>
+    const starContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        starContainer.appendChild(star);
+    }
+</script>
+{% endblock body %}

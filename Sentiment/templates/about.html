@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | SentiMind AI{% endblock title %}
+
+{% block body %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-image: url("static/senti.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* This keeps the background fixed when scrolling */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Use viewport height instead of percentage */
+    }
+
+    .body-content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .content-container {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 800px;
+        width: 100%;
+        color: #fff;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        position: relative;
+        margin: 40px 0;
+    }
+
+    .content-container:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(0, 255, 255, 0.4);
+        border-color: #00ffff;
+        transform: scale(1.02);
+    }
+
+    .about-title {
+        font-size: 36px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 25px;
+        text-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+    }
+
+    .subheading {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        color: #00ffff;
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.7);
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .contact-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 25px;
+        font-size: 18px;
+        color: black;
+        background-color: #00ffff;
+        border: 2px solid transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.4s, background-color 0.4s, box-shadow 0.4s, transform 0.3s;
+        font-weight: bold;
+    }
+
+    .contact-button:hover {
+        color: black;
+        background-color: #00ffff;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        transform: scale(1.05);
+        border: 2px solid #00ffff;
+    }
+
+    /* Make sure any footer or header respects the layout */
+    header, footer {
+        width: 100%;
+        z-index: 10;
+    }
+</style>
+
+<main class="body-content">
+    <div class="content-container">
+        <h1 class="about-title">About Us</h1>
+        
+        <p>Welcome to <strong>SentiMind AI</strong>! We specialize in advanced natural language processing technologies to provide deep sentiment insights and emotional analytics. Our cutting-edge solutions are designed to help businesses and researchers understand the emotional context behind text data, enabling more informed decisions and meaningful connections.</p>
+        
+        <h2 class="subheading">Our Mission</h2>
+        <p>Our mission is to decode human emotions expressed in text and transform qualitative data into quantitative insights. We are committed to developing innovative AI solutions that reveal the true sentiment behind words, helping organizations better understand customer feedback, social media trends, and public opinion.</p>
+        
+        <h2 class="subheading">Sentiment Analysis Technology</h2>
+        <p>Using state-of-the-art natural language processing and machine learning algorithms, our sentiment analysis system can detect emotions, identify key phrases, and measure sentiment intensity in virtually any text. Our technology goes beyond simple positive/negative classification to understand nuanced emotional states and contextual meaning.</p>
+        
+        <h2 class="subheading">Applications</h2>
+        <p>Our sentiment analysis technology serves a wide range of applications, including brand reputation monitoring, customer feedback analysis, market research, social media monitoring, product reviews analysis, and content moderation. Whether you're analyzing customer reviews or monitoring social media sentiment, SentiMind AI provides the insights you need.</p>
+        
+        <h2 class="subheading">Contact Us</h2>
+        <p>We'd love to hear from you! If you have any questions about our sentiment analysis solutions or would like to discuss how SentiMind AI can help your organization, please reach out to us.</p>
+        
+        <a href="/contact" class="contact-button">Contact Us</a>
+    </div>
+</main>
+{% endblock body %}
